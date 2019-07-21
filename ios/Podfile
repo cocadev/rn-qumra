@@ -31,6 +31,7 @@ target 'QumraApp' do
   pod 'react-native-google-maps', path: '../node_modules/react-native-maps'
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 
   target 'QumraAppTests' do

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -75,6 +76,7 @@ class App extends React.Component {
             style={styles.bubble}
           >
             <Text>Tap to create a marker of random color</Text>
+            <MaterialIcons name='my-location' size={40} color={'grey'}/>
           </TouchableOpacity>
         </View>
       </View>
