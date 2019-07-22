@@ -33,6 +33,8 @@ target 'QumraApp' do
   pod 'Google-Maps-iOS-Utils'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+  pod 'RNGestureHandler', :podspec => '../node_modules/react-native-gesture-handler/RNGestureHandler.podspec'
+
 
 
 

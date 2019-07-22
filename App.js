@@ -10,6 +10,7 @@ import {
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import { RectButton } from 'react-native-gesture-handler'
 
 const { width, height } = Dimensions.get('window');
 
@@ -72,14 +73,10 @@ class App extends React.Component {
           ))}
         </MapView>
         <View style={styles.buttonContainer}>
-        <Text>
-                HeyHey
-              </Text>
-            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
-              <Text style={styles.buttonText}>
-                Sign in with Facebook
-              </Text>
-            </LinearGradient>
+    
+              <RectButton >
+      <Text>Fo00000o</Text>
+    </RectButton>
         </View>
       </View>
     );
