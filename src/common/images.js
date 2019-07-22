@@ -13,7 +13,9 @@ export const images = {
 
     logo_full: require('../../assets/image/fulllogo.png'),
     logo_white: require('../../assets/image/white_logo.png'),
+    logo_dark: require('../../assets/image/qumraheader.png'),
 
+    
     
 
 

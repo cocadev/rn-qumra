@@ -10,9 +10,14 @@ import SideMenu from '../components/sideMenu';
 import ForgetPassword from '../screens/Auth/forgetPassword';
 import RequestPhotographer from '../screens/Other/requestPhotographer';
 import Orders from '../screens/Other/orders';
+import Maps from '../screens/Map/Maps';
 
 const width = Dimensions.get('window').width
 const MAIN = [
+  // { key: 'test', component: Test },
+
+  { key: 'maps', component: Maps },
+
   { key: 'intro', component: Intro },
   { key: 'signup', component: SignUp },
   { key: 'signin', component: SignIn },
@@ -35,8 +40,8 @@ export const MainPage = props => {
           drawerPosition="left"
         >
           <Scene 
-            key="intro" 
-            component={Intro} 
+            key="maps" 
+            component={Maps} 
             initial={true} 
             hideNavBar 
           />
