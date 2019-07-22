@@ -9,13 +9,13 @@ import { COLORS } from '../../common/colors';
 import { Actions } from 'react-native-router-flux';
 
 export default class Profile extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       fullname: '',
       summary: '',
       filePath: null
-
     }
   };
 
@@ -74,6 +74,7 @@ export default class Profile extends Component {
 
         <View style={styles.body}>
           <View style={styles.bodyContent}>
+           
             <Text style={styles.info}>Type your name and select your avatar</Text>
             <Text style={{ fontSize: p(16), color: '#4B4B4B', marginTop: p(25) }}> Full Name</Text>
             <TextInput style={styles.textInputStlye} placeholder='Full Name'

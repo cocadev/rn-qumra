@@ -71,7 +71,7 @@ export default class Login extends Component {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, }}>
                             {/* <Text style={{color: 'white', padding: 5}}>Don't have an account?</Text> */}
-                            <TouchableOpacity onPress={this.onSignUpPressed}>
+                            <TouchableOpacity onPress={()=>Actions.signup()}>
                                 <Text style={{ alignSelf: 'center', color: 'white', fontSize: p(14) }}>Create an account  </Text>
                             </TouchableOpacity>
 

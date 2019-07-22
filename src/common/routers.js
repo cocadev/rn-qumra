@@ -8,15 +8,18 @@ import Profile from '../screens/Profile/UserProfile'
 
 import SideMenu from '../components/sideMenu';
 import ForgetPassword from '../screens/Auth/forgetPassword';
+import RequestPhotographer from '../screens/Other/requestPhotographer';
+import Orders from '../screens/Other/orders';
 
 const width = Dimensions.get('window').width
 const MAIN = [
-  // { key: 'intro', component: Intro },
+  { key: 'intro', component: Intro },
   { key: 'signup', component: SignUp },
   { key: 'signin', component: SignIn },
   { key: 'forgotPassword', component: ForgetPassword },
-
   { key: 'profile', component: Profile },
+  { key: 'requestPhotographer', component: RequestPhotographer },
+  { key: 'orders', component: Orders },
 
 ]
   
@@ -42,7 +45,7 @@ export const MainPage = props => {
           <Scene
             key={a.key}
             component={a.component}
-            initial={a.key == 'profile' ? true : false}
+            initial={a.key == 'orders' ? false : false}
             hideNavBar
           />))}
       </Stack>

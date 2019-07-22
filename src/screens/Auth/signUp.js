@@ -7,6 +7,7 @@ import { images } from '../../common/images';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS } from '../../common/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 export default class SignUp extends Component {
 

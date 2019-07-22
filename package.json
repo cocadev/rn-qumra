@@ -15,7 +15,9 @@
     "react-native-image-picker": "^1.0.1",
     "react-native-linear-gradient": "^2.5.4",
     "react-native-maps": "^0.25.0",
+    "react-native-ratings": "^6.3.1",
     "react-native-router-flux": "^4.0.6",
+    "react-native-star-rating": "^1.1.0",
     "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {
