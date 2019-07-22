@@ -9,6 +9,7 @@ import {
 
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
 
@@ -71,13 +72,14 @@ class App extends React.Component {
           ))}
         </MapView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
-          >
-            <Text>Tap to create a marker of random color</Text>
-            <MaterialIcons name='my-location' size={40} color={'grey'}/>
-          </TouchableOpacity>
+        <Text>
+                HeyHey
+              </Text>
+            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+              <Text style={styles.buttonText}>
+                Sign in with Facebook
+              </Text>
+            </LinearGradient>
         </View>
       </View>
     );
@@ -113,6 +115,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: 'transparent',
+  },
+  linearGradient: {
+    flex: 1,
+    height: 80,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: 'center',
+    margin: 10,
+    color: 'red',
+    backgroundColor: 'blue',
   },
 });
 
