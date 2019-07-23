@@ -11,10 +11,11 @@ import ForgetPassword from '../screens/Auth/forgetPassword';
 import RequestPhotographer from '../screens/Other/requestPhotographer';
 import Orders from '../screens/Other/orders';
 import Maps from '../screens/Map/Maps';
+import Test from '../screens/test';
 
 const width = Dimensions.get('window').width
 const MAIN = [
-  // { key: 'test', component: Test },
+  { key: 'test', component: Test },
 
   { key: 'maps', component: Maps },
 

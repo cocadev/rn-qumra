@@ -10,6 +10,7 @@ export const images = {
 
     markder_qumrahmarker: require('../../assets/image/qumrahmarker.png'),
     markder_user: require('../../assets/image/user_marker.png'),
+    marker_gps: require('../../assets/image/gps_marker.png'),
 
     logo_full: require('../../assets/image/fulllogo.png'),
     logo_white: require('../../assets/image/white_logo.png'),

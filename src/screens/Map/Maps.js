@@ -21,8 +21,8 @@ export default class Maps extends Component {
       initialPosition: {
         latitude: 40.758043,
         longitude: -73.985692,
-        latitudeDelta: 0.004,
-        longitudeDelta: 0.004
+        latitudeDelta: 7,
+        longitudeDelta: 7
       },
       persons: [],
       error: ''
@@ -42,10 +42,22 @@ export default class Maps extends Component {
   }
 
   _renderItem = ({ item }) => (
-    <View style={{ marginTop: p(8)}}>
+    <TouchableOpacity 
+      style={{ marginTop: p(8)}}
+      onPress={()=>{
+        this.setState({
+          initialPosition: {
+            latitude: parseFloat(item.location.coordinates.latitude),
+            longitude: parseFloat(item.location.coordinates.longitude),
+            latitudeDelta: 7,
+            longitudeDelta: 7
+          },
+        })
+      }} 
+    >
       <Image source={{ uri: item.picture.medium}} style={{ width: p(80), height: p(80), borderRadius: p(40), marginHorizontal: p(8) }} />
       <Text style={{ fontSize: p(15), alignSelf: 'center', marginTop: p(6) }}>${item.dob.age}</Text>
-    </View>
+    </TouchableOpacity>
   )
 
 
@@ -61,18 +73,32 @@ export default class Maps extends Component {
           zoomEnabled={true}
           region={this.state.initialPosition}
         >
+          {this.state.persons.map((person, key) => (
+            <MapView.Marker
+              key={key}
+              coordinate={{
+                latitude: parseFloat(person.location.coordinates.latitude) ,
+                longitude: parseFloat(person.location.coordinates.longitude) 
+              }}
+            >
+              <Image source={images.markder_user} style={{ width: p(40), height: p(52) }} />
+              <Image source={{ uri: person.picture.medium }} style={{ position: 'absolute', left: p(8.2), top: p(6),  width: p(26), height: p(26), borderRadius: p(13) }} />
+            
+            </MapView.Marker>
+          ))}
 
-          {!!this.state.initialPosition.latitude && !!this.state.initialPosition.longitude &&
+          {/* {!!this.state.initialPosition.latitude && !!this.state.initialPosition.longitude &&
             <MapView.Marker
               coordinate={{ "latitude": this.state.initialPosition.latitude, "longitude": this.state.initialPosition.longitude }}
             >
               <Image source={images.markder_user} style={{ width: p(40), height: p(52) }} />
               <Image source={{ uri: 'https://asia-mag.com/wp-content/uploads/2019/06/zhangitanai7.png' }} style={{ position: 'absolute', left: p(8.2), top: p(6), width: p(26), height: p(26), borderRadius: p(13) }} />
-            </MapView.Marker>}
+            
+            </MapView.Marker>} */}
 
         </MapView>
 
-        <Callout style={{ width: '100%', height: "10%", marginTop: p(8), paddingLeft: p(12), flexDirection: 'row' }}>
+        <Callout style={{ width: '100%', height: "10%", marginTop: p(12), paddingLeft: p(12), flexDirection: 'row' }}>
           <TouchableOpacity
             style={{ backgroundColor: 'transparent', width: p(30) }}
             onPress={() => this.props.navigation.openDrawer()}

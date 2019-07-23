@@ -113,7 +113,7 @@ export default class SideMenu extends Component {
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => Actions.signin()}>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => Actions.test()}>
                     <MaterialCommunityIcons style={{ marginHorizontal: p(12), width: p(30) }} name="account-settings" color={COLORS.light_color} size={p(26)} />
                     <Text style={styles.menuItem}>
                         Contact Us

@@ -19,11 +19,10 @@ export default class RequestPhotographer extends React.Component {
         return (
             <View style={{ flex: 1, padding: p(12) }}>
 
-                <TouchableOpacity style={styles.back} onPress={() => Actions.pop()}>
-                    <Icon name="ios-arrow-round-back" color={COLORS.light_color} size={p(36)} />
-                </TouchableOpacity>
-
                 <View style={styles.header}>
+                    <TouchableOpacity style={styles.back} onPress={() => Actions.pop()}>
+                        <Icon name="ios-arrow-round-back" color={COLORS.light_color} size={p(36)} />
+                    </TouchableOpacity>
                     <Text style={[styles.text, { color: COLORS.light_color }]}>Request Photographer</Text>
                 </View>
 
@@ -64,13 +63,13 @@ export default class RequestPhotographer extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    back:{
-        position: 'absolute', 
+    back: {
+        position: 'absolute',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        left: p(12), 
-        top: p(3), 
-        width: p(40), 
+        left: p(12),
+        top: p(-8),
+        width: p(40),
         height: p(40),
     },
     header: {
