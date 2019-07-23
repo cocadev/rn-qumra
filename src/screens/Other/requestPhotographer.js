@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         height: p(40),
     },
     header: {
+        marginTop: p(10),
         height: p(30),
         borderBottomWidth: p(2),
         borderBottomColor: COLORS.light_color,

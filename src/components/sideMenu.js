@@ -27,7 +27,7 @@ export default class SideMenu extends Component {
                         borderColor: "white",
                         marginBottom: p(5),
                         alignSelf: 'center',
-                        marginTop: p(10)
+                        marginTop: p(18)
                     }}
                 />
 
@@ -87,7 +87,7 @@ export default class SideMenu extends Component {
                     </Text>
                     <View style={{ flex: 1, alignItems: 'flex-end' }}>
                         <View style={styles.like}>
-                            <Text style={{ color: COLORS.white }}>12</Text>
+                            <Text style={{ color: COLORS.white, fontSize: p(12) }}>12</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -139,9 +139,6 @@ export default class SideMenu extends Component {
 const styles = StyleSheet.create({
     menuItem: {
         padding: p(10),
-        borderTopWidth: p(1),
-        borderColor: '#d2d5d9',
-        borderWidth: p(0.4),
         backgroundColor: 'white',
         fontSize: p(14),
     },

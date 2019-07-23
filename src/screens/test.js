@@ -48,7 +48,6 @@ export default class Test extends React.Component {
     return (
       <View style={styles.container}>
         <MapView
-          provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
           onPress={(e) => this.onMapPress(e)}
@@ -66,7 +65,7 @@ export default class Test extends React.Component {
             onPress={() => Actions.pop()}
             style={styles.bubble}
           >
-            <Text>Go Back</Text>
+            <Text>Go Back 333</Text>
           </TouchableOpacity>
         </View>
       </View>

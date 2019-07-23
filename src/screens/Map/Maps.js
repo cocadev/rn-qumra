@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList, Text } from 'react-native'
+import { View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList, Text, Platform } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Callout, } from 'react-native-maps';
 // import GooglePlaceSearch from '../../components/GooglePlaceSearch';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { p } from '../../common/normalize';
 import { images } from '../../common/images';
-import { Actions } from 'react-native-router-flux';
 import { COLORS } from '../../common/colors';
 import axios from 'axios';
 
@@ -55,7 +54,7 @@ export default class Maps extends Component {
         })
       }} 
     >
-      <Image source={{ uri: item.picture.medium}} style={{ width: p(80), height: p(80), borderRadius: p(40), marginHorizontal: p(8) }} />
+      <Image source={{ uri: item.picture.medium}} style={{ width: p(80), height: p(80), borderRadius: p(40), marginLeft: p(11) }} />
       <Text style={{ fontSize: p(15), alignSelf: 'center', marginTop: p(6) }}>${item.dob.age}</Text>
     </TouchableOpacity>
   )
@@ -68,7 +67,6 @@ export default class Maps extends Component {
 
         <MapView
           style={styles.mapcontainer}
-          provider={PROVIDER_GOOGLE}
           showsCompass={false}
           zoomEnabled={true}
           region={this.state.initialPosition}
@@ -82,7 +80,7 @@ export default class Maps extends Component {
               }}
             >
               <Image source={images.markder_user} style={{ width: p(40), height: p(52) }} />
-              <Image source={{ uri: person.picture.medium }} style={{ position: 'absolute', left: p(8.2), top: p(6),  width: p(26), height: p(26), borderRadius: p(13) }} />
+              <Image source={{ uri: person.picture.medium }} style={{ position: 'absolute', left: p(7.55), top: p(5.6),  width: p(26), height: p(26), borderRadius: p(13) }} />
             
             </MapView.Marker>
           ))}
@@ -98,14 +96,14 @@ export default class Maps extends Component {
 
         </MapView>
 
-        <Callout style={{ width: '100%', height: "10%", marginTop: p(12), paddingLeft: p(12), flexDirection: 'row' }}>
+        <Callout style={{ width: '100%', height: "10%", marginTop: p(10), paddingLeft: p(12), flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity
-            style={{ backgroundColor: 'transparent', width: p(30) }}
+            style={{ backgroundColor: 'transparent', width: p(30), marginTop: p(2) }}
             onPress={() => this.props.navigation.openDrawer()}
           >
             <Icon name='md-menu' size={p(22)} color={'grey'} />
           </TouchableOpacity>
-          <View style={{ flexDirection: 'row', marginLeft: p(80) }}>
+          <View style={{ flexDirection: 'row', marginLeft: p(70) }}>
             <Image source={images.logo_dark} style={{ width: p(140), height: p(37) }} />
           </View>
         </Callout>
@@ -198,7 +196,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    paddingTop: p(2)
   },
   mapcontainer: {
     width: width,

@@ -70,9 +70,9 @@ export default class SignUp extends Component {
               </TouchableOpacity>
 
               <View style={{ flexDirection: 'row', paddingTop: p(10), justifyContent: 'space-between' }}>
-                <Text style={{ color: '#fff', fontSize: p(14) }}> By signing up, you agree to our</Text>
+                <Text style={{ color: '#fff', fontSize: p(12) }}> By signing up, you agree to our</Text>
                 <TouchableOpacity onPress={this.onTermsPrivacyPressed}>
-                  <Text style={{ color: '#f5565b', fontSize: p(14) }}>Terms and Privacy Policy
+                  <Text style={{ color: '#f5565b', fontSize: p(12) }}>Terms and Privacy Policy
                      </Text>
                 </TouchableOpacity>
               </View>
@@ -95,7 +95,7 @@ export default class SignUp extends Component {
               </TouchableOpacity>
 
               <View style={{ paddingTop: p(12) }}>
-                <Text style={{ color: '#fff', fontSize: p(14), marginBottom: p(6), textAlign: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: p(12), marginBottom: p(6), textAlign: 'center' }}>
                   Have a fancy camera? Sign Up today and make money!
                 </Text>
               </View>
