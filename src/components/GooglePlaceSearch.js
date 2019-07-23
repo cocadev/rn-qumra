@@ -110,10 +110,10 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#263238',
     flexDirection: 'row',
-    height: 45,
+    height: p(45),
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: p(10)
   },
   buttonText: {
     color: 'white'
@@ -121,11 +121,11 @@ const styles = StyleSheet.create({
   inputLauncher: {
     backgroundColor: '#F3F7F9',
     width: '100%',
-    borderRadius: 4,
-    height: 35,
+    borderRadius: p(4),
+    height: p(35),
     justifyContent: 'center',
-    paddingLeft: 10,
-    marginBottom: 16
+    paddingLeft: p(10),
+    marginBottom: p(16)
   },
   inputWrapper: {
     backgroundColor: 'white',
@@ -136,19 +136,19 @@ const styles = StyleSheet.create({
   },
   input: {
     color: '#222B2F',
-    height: 60,
+    height: p(60),
     fontSize: p(12),
-    paddingVertical: 4,
+    paddingVertical: p(4),
     width: "90%",
     paddingLeft: p(8),
   },
   list: {
-    marginTop: 16,
-    height: Dimensions.get('window').height - 70
+    marginTop: p(16),
+    height: Dimensions.get('window').height - p(70)
   },
   listItemWrapper: {
     backgroundColor: 'white', //'transparent',
-    height: 60,
+    height: p(60),
     width: "90%"
 
   },
@@ -156,31 +156,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: p(16),
     height: '100%'
   },
   divider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'blue',
     width: '92%',
-    marginHorizontal: 16,
+    marginHorizontal: p(16),
     opacity: 0.6
   },
   primaryText: {
     color: 'black',
-    fontSize: 18,
+    fontSize: p(18),
     marginBottom: 3
   },
   placeMeta: {
     flex: 1,
-    marginLeft: 15
+    marginLeft: p(15)
   },
   secondaryText: {
     color: 'gray',
-    fontSize: 16,
+    fontSize: p(16),
   },
   listIcon: {
-    width: 30,
-    height: 25
+    width: p(30),
+    height: p(25)
   }
 });

@@ -34,6 +34,8 @@ PODS:
   - GoogleMaps/Base (3.1.0)
   - GoogleMaps/Maps (3.1.0):
     - GoogleMaps/Base
+  - GooglePlaces (3.1.0):
+    - GoogleMaps/Base (= 3.1.0)
   - React (0.60.4):
     - React-Core (= 0.60.4)
     - React-DevSupport (= 0.60.4)
@@ -83,6 +85,10 @@ PODS:
   - react-native-google-maps (0.25.0):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.1.0)
+    - React
+  - react-native-google-places (3.1.1):
+    - GoogleMaps (~> 3.1.0)
+    - GooglePlaces (~> 3.1.0)
     - React
   - react-native-image-picker (1.0.1):
     - React
@@ -134,6 +140,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
+  - react-native-google-places (from `../node_modules/react-native-google-places`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -155,6 +162,7 @@ SPEC REPOS:
     - boost-for-react-native
     - Google-Maps-iOS-Utils
     - GoogleMaps
+    - GooglePlaces
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -183,6 +191,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-google-places:
+    :path: "../node_modules/react-native-google-places"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
@@ -222,6 +232,7 @@ SPEC CHECKSUMS:
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
+  GooglePlaces: e874db179f2675c4f3eeda0b686b540273a578b0
   React: ff7ee2ae5ee1c1d9ae2183b4111045b25294bb01
   React-Core: 8e0ea421cae5609d2562850f98421b15030476fa
   React-cxxreact: 326880209990151a7182a813311054e9772ba510
@@ -231,6 +242,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-google-maps: 88d750ad441b19c24885f20d43a55ecac25939b5
+  react-native-google-places: d09138fdb5d77c071981a4c6170823c8538d2e20
   react-native-image-picker: c9bddc819f4fd46b6f37f2861712497e920192d9
   react-native-maps: 190c02ca533fddac5bb49cf17bdece3644612107
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
@@ -247,6 +259,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: e7ba98c6fc762e3945813a674b0deb50f10bfe24
+PODFILE CHECKSUM: 8049fd4d33c8415221622b8a1b1bb172cb0b1178
 
 COCOAPODS: 1.7.1

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList, Text, Platform } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Callout, } from 'react-native-maps';
-// import GooglePlaceSearch from '../../components/GooglePlaceSearch';
+import GooglePlaceSearch from '../../components/GooglePlaceSearch';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { p } from '../../common/normalize';
@@ -108,12 +108,12 @@ export default class Maps extends Component {
           </View>
         </Callout>
 
-        {/* <Callout style={{ alignContent: 'center', width: '100%', height: "20%", marginTop: p(30) }}>
+        <Callout style={{ alignContent: 'center', width: '100%', height: "20%", marginTop: p(50) }}>
           <GooglePlaceSearch />
-        </Callout> */}
+        </Callout>
 
-        <Callout style={{ top: p(100), right: p(12), alignSelf: 'flex-end' }}>
-          <TouchableOpacity style={{ elevation: 5, padding: p(6), backgroundColor: '#fff', borderRadius: 5 }} onPress={this.onCurrentLocationPressed}>
+        <Callout style={{ top: p(140), right: p(12), alignSelf: 'flex-end' }}>
+          <TouchableOpacity style={{ elevation: 5, padding: p(9), backgroundColor: '#fff', borderRadius: 5 }} onPress={this.onCurrentLocationPressed}>
             <MaterialIcons name='my-location' size={p(13)} color={'grey'} />
           </TouchableOpacity>
         </Callout>
