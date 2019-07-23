@@ -30,7 +30,7 @@ export default CustomStyle = StyleSheet.create({
         height: p(40),
         borderRadius: p(10),
         textDecorationColor:'white',
-        color: '#2d3e50'
+        color: '#fff'
     },
     btn: {
         alignSelf: 'stretch',

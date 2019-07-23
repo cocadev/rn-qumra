@@ -4,12 +4,7 @@ import RNGooglePlaces from 'react-native-google-places';
 import lookUpPlaceByID from '../common/config';
 import { p } from '../common/normalize';
 import { images } from '../common/images';
-
-type Props = {};
-type State = {
-  addressQuery: string,
-  predictions: Array<any>
-}
+import MapView, { PROVIDER_GOOGLE, Callout, } from 'react-native-maps';
 
 export default class GooglePlaceSearch extends Component{
   constructor(props) {
@@ -25,30 +20,23 @@ export default class GooglePlaceSearch extends Component{
     this.setState({ addressQuery: text });
     RNGooglePlaces.getAutocompletePredictions(this.state.addressQuery)
       .then((places) => {
-        console.log(places);
-        debugger;
+        console.log('~~~~~~~~~~~~~~~~~' ,places);
         this.setState({ predictions: places });
       })
       .catch(error => console.log(error.message));
   }
 
   onSelectSuggestion(placeID) {
-    console.log(placeID);
+    console.log('getPlaceByID => ', placeID);
     // getPlaceByID call here
     RNGooglePlaces.lookUpPlaceByID(placeID)
-      .then((results) => console.log(results))
-      .catch((error) => console.log(error.message));
+      .then((results) => console.log('++++++++++++++++++++++', results))
+      .catch((error) => console.log('err->', error.message));
 
     this.setState({
       showInput: false,
       predictions: []
     });
-  }
-
-  onGetCurrentPlacePress = () => {
-    RNGooglePlaces.getCurrentPlace()
-      .then((results) => console.log(results))
-      .catch((error) => console.log(error.message));
   }
 
   onGetPlaceByIDPress = () => {
@@ -78,13 +66,15 @@ export default class GooglePlaceSearch extends Component{
   }
 
   render() {
+
+    console.log('_________________________________________________', this.state.predictions)
+
     return (
       <View style={{ flex: 1, width: "100%", padding: p(20) }}>
         <View style={styles.inputWrapper}>
           <TextInput
-            ref={input => this.pickUpInput = input}
             style={styles.input}
-            value={this.props.addressQuery}
+            value={this.state.addressQuery}
             onChangeText={this.onQueryChange}
             placeholder={'Where to meet?'}
             placeholderTextColor='gray'
@@ -136,19 +126,19 @@ const styles = StyleSheet.create({
   },
   input: {
     color: '#222B2F',
-    height: p(60),
+    height: p(40),
     fontSize: p(12),
     paddingVertical: p(4),
-    width: "90%",
+    width: "100%",
     paddingLeft: p(8),
   },
   list: {
-    marginTop: p(16),
+    marginTop: p(2),
     height: Dimensions.get('window').height - p(70)
   },
   listItemWrapper: {
     backgroundColor: 'white', //'transparent',
-    height: p(60),
+    height: p(40),
     width: "90%"
 
   },
@@ -156,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: p(16),
+    paddingHorizontal: p(10),
     height: '100%'
   },
   divider: {
@@ -168,7 +158,7 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     color: 'black',
-    fontSize: p(18),
+    fontSize: p(14),
     marginBottom: 3
   },
   placeMeta: {
@@ -177,10 +167,10 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     color: 'gray',
-    fontSize: p(16),
+    fontSize: p(13),
   },
   listIcon: {
-    width: p(30),
-    height: p(25)
+    width: p(25),
+    height: p(21)
   }
 });

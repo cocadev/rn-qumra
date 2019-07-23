@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, KeyboardAvoidingView, TouchableOpacity, AsyncStorage, ScrollView, Image } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView, TouchableOpacity, AsyncStorage, Dimensions, Image, ActivityIndicator } from 'react-native';
 import CustomStyle from '../../common/c_style';
 import firebase from 'firebase';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,14 +8,17 @@ import { p } from '../../common/normalize';
 import { images } from '../../common/images';
 import { COLORS } from '../../common/colors';
 import { Actions } from 'react-native-router-flux';
+import { showMessage } from "react-native-flash-message";
+import * as ATOM from '../../components/atoms';
 
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
+            email: 'eugene19950901@outlook.com',
+            password: '123qwe',
+            isWaiting: false
         }
     }
 
@@ -31,8 +34,11 @@ export default class Login extends Component {
     }
 
     render() {
+        const { isWaiting } = this.state
         return (
             <LinearGradient colors={['#020407', '#2d3e50']} style={{ flex: 1 }}>
+
+               { isWaiting && <ATOM.Loading />} 
 
                 <View style={CustomStyle.wrapper}>
                     <KeyboardAvoidingView behavior='padding' style={{ flex: 1, padding: p(12) }}>
@@ -49,18 +55,22 @@ export default class Login extends Component {
                         <TextInput
                             style={CustomStyle.textInput}
                             placeholder='Email'
-                            placeholderTextColor='#FFF'
+                            placeholderTextColor={COLORS.light_color}
                             onChangeText={(email) => this.setState({ email })}
                             underlineColorAndroid='transparent'
+                            value={this.state.email}
+
                         />
 
                         <TextInput
                             style={CustomStyle.textInput}
                             placeholder='Password'
-                            placeholderTextColor='#FFF'
+                            placeholderTextColor={COLORS.light_color}
                             secureTextEntry={true}
                             onChangeText={(password) => this.setState({ password })}
                             underlineColorAndroid='transparent'
+                            value={this.state.password}
+
                         />
 
                         <TouchableOpacity onPress={this.login}>
@@ -71,7 +81,7 @@ export default class Login extends Component {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, }}>
                             {/* <Text style={{color: 'white', padding: 5}}>Don't have an account?</Text> */}
-                            <TouchableOpacity onPress={()=>Actions.signup()}>
+                            <TouchableOpacity onPress={() => Actions.signup()}>
                                 <Text style={{ alignSelf: 'center', color: 'white', fontSize: p(14) }}>Create an account  </Text>
                             </TouchableOpacity>
 
@@ -94,7 +104,6 @@ export default class Login extends Component {
                                 <Text style={{ color: 'white', fontSize: p(17) }}> Sign In as a Photographer </Text>
                             </View>
                         </TouchableOpacity>
-
                     </KeyboardAvoidingView>
                 </View>
 
@@ -116,14 +125,20 @@ export default class Login extends Component {
     }
 
     login = () => {
-
+        this.setState({ isWaiting: true})
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            // user?
             .then(user => {
-                this.props.navigation.navigate("UserProfile")
+                this.setState({ isWaiting: false})
+                Actions.profile()
             })
             .catch(error => {
-                alert("Wrong username or password", error);
+                this.setState({ isWaiting: false})
+                showMessage({
+                    message: "Fail Login",
+                    description: error.message,
+                    type: "danger",
+                    icon: "danger"
+                });
             })
 
     }

@@ -8,6 +8,7 @@ import { p } from '../../common/normalize';
 import { images } from '../../common/images';
 import { COLORS } from '../../common/colors';
 import axios from 'axios';
+import RNGooglePlaces from 'react-native-google-places';
 
 var { width, height } = Dimensions.get('window')
 
@@ -37,7 +38,9 @@ export default class Maps extends Component {
   }
 
   onCurrentLocationPressed = () => {
-
+    RNGooglePlaces.getCurrentPlace(['location'])
+    .then((results) => console.log('here is my place', results))
+    .catch((error) => console.log(error.message));
   }
 
   _renderItem = ({ item }) => (
@@ -67,6 +70,7 @@ export default class Maps extends Component {
 
         <MapView
           style={styles.mapcontainer}
+          // provider={PROVIDER_GOOGLE}
           showsCompass={false}
           zoomEnabled={true}
           region={this.state.initialPosition}
