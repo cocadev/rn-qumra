@@ -29,6 +29,7 @@ export default class GooglePlacesSearch extends React.Component {
             minLength={2} // minimum length of text to search
             autoFocus={false}
             fetchDetails={true}
+            listViewDisplayed={false}    // true/false/undefined
 
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true                
               this.props.onClick(details.geometry.location.lat, details.geometry.location.lng)
@@ -69,7 +70,7 @@ export default class GooglePlacesSearch extends React.Component {
             // debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
 
-            currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+            currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
             nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
             GoogleReverseGeocodingQuery={{
               // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro

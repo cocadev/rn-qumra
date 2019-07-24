@@ -12,7 +12,7 @@ YellowBox.ignoreWarnings([
 
 export default class App extends React.Component {
 
-  componentWillMount() {
+  async componentWillMount() {
     var firebaseConfig = {
       apiKey: "AIzaSyAfu9DbRD5_PA-9hAhaQhAko0zZQSBcdp0",
       authDomain: "qumra-bd932.firebaseapp.com",
@@ -23,18 +23,18 @@ export default class App extends React.Component {
       appId: "1:240259766392:web:2b82fe46610c413a"
     };
     firebase.initializeApp(firebaseConfig);
-  }
+}
 
-  render() {
-    return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        style={{ flex: 1 }}
-      >
-        <ROUTER.MainPage />
-        <FlashMessage position="bottom" />
+render() {
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      style={{ flex: 1 }}
+    >
+      <ROUTER.MainPage />
+      <FlashMessage position="bottom" />
 
-      </KeyboardAvoidingView>
-    );
-  }
+    </KeyboardAvoidingView>
+  );
+}
 }

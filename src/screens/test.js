@@ -1,81 +1,105 @@
-import React from "react"
-import { View } from "react-native"
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { Actions } from "react-native-router-flux"
 
-export default class Test extends React.Component {
+import React, { Component } from 'react';
+import {
+  Button,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View
+} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      signedIn: false,
-      name: "",
-      photoUrl: "",
-      location: { lat: 19.076090, lng: 72.877426, },
+export default class App extends Component {
+  watchId = null;
+
+  state = {
+    loading: false,
+    updatesEnabled: false,
+    location: {}
+  };
+
+  hasLocationPermission = async () => {
+    if (Platform.OS === 'ios' ||
+        (Platform.OS === 'android' && Platform.Version < 23)) {
+      return true;
     }
+
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (hasPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+    }
+
+    return false;
+  }
+
+  getLocation = async () => {
+    const hasLocationPermission = await this.hasLocationPermission();
+
+    if (!hasLocationPermission) return;
+
+    this.setState({ loading: true }, () => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({ location: position, loading: false });
+          console.log(position);
+        },
+        (error) => {
+          this.setState({ location: error, loading: false });
+          console.log(error);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+      );
+    });
   }
 
   render() {
-
-    console.log(' * - 1*',  this.props.user)
-
+    const { loading, location, updatesEnabled } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Button title='Get Location' onPress={this.getLocation} disabled={loading || updatesEnabled} />
 
-        <View style={{marginHorizontal:20, flex:1, width:'86%'}}>
-          <GooglePlacesAutocomplete
-            placeholder='Search'
-            minLength={2} // minimum length of text to search
-            autoFocus={false}
-            fetchDetails={true}
-            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-              if(this.props.update){
-                this.props.update(details.geometry.location, details.name)
-                Actions.pop();
-              }
-            }}
-
-            query={{
-              key: 'AIzaSyANf8fz4oNqO_zMbfMtQpk-60qvKm1Qjgs',
-              language: 'en', // language of the results
-              types: 'address', // default: 'geocode'
-            }}
-
-            styles={{
-              description: {
-                fontWeight: 'bold',
-              },
-              predefinedPlacesDescription: {
-                color: '#1faadb',
-              },
-              textInput: {
-                width: '100%',
-              },
-              textInputContainer: {
-                width: '100%',
-                backgroundColor: 'rgba(0,0,0,0)',
-                borderTopWidth: 0,
-                borderBottomWidth: 1,
-                borderBottomColor: '#ddd'
-              },
-            }}
-            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-
-            currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-            GoogleReverseGeocodingQuery={{
-              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-            }}
-
-
-            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
-            predefinedPlacesAlwaysVisible={true}
-          />
+        <View style={styles.result}>
+            <Text>{JSON.stringify(location, null, 4)}</Text>
         </View>
-
       </View>
-
-    )
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    paddingHorizontal: 12
+  },
+  result: {
+      borderWidth: 1,
+      borderColor: '#666',
+      width: '100%',
+      paddingHorizontal: 16
+  },
+  buttons: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      marginVertical: 12,
+      width: '100%'
+  }
+});
