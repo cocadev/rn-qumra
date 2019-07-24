@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList, Text, Platform } from 'react-native'
+import { View, StyleSheet, Dimensions, Image, TouchableOpacity, FlatList, Text, Platform, PermissionsAndroid, ActivityIndicator } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Callout, } from 'react-native-maps';
 import GooglePlaceSearch from '../../components/GooglePlaceSearch';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,7 @@ import { p } from '../../common/normalize';
 import { images } from '../../common/images';
 import { COLORS } from '../../common/colors';
 import axios from 'axios';
-import RNGooglePlaces from 'react-native-google-places';
+import Geolocation from 'react-native-geolocation-service';
 
 var { width, height } = Dimensions.get('window')
 
@@ -25,37 +25,93 @@ export default class Maps extends Component {
         longitudeDelta: 7
       },
       persons: [],
-      error: ''
+      error: '',
+      loading: false
+      
     };
+    this.goToMap = this.goToMap.bind(this)
   }
 
   componentDidMount() {
-    axios.get(`https://randomuser.me/api/?seed=1&page=1&results=6`)
+
+    console.log('__________12 2324__________', navigator.geolocation)
+    
+    axios.get(`https://randomuser.me/api/?seed=1&page=1&results=50`)
       .then(res => {
         const persons = res.data.results;
         this.setState({ persons });
       })
   }
 
-  onCurrentLocationPressed = () => {
-    RNGooglePlaces.getCurrentPlace(['location'])
-    .then((results) => console.log('here is my place', results))
-    .catch((error) => console.log(error.message));
+  hasLocationPermission = async () => {
+    if (Platform.OS === 'ios' ||
+        (Platform.OS === 'android' && Platform.Version < 23)) {
+      return true;
+    }
+
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (hasPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+    }
+
+    return false;
+  }
+
+  getLocation = async () => {
+    const hasLocationPermission = await this.hasLocationPermission();
+
+    if (!hasLocationPermission) return;
+
+    this.setState({ loading: true }, () => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({ location: position, loading: false,
+            initialPosition: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              latitudeDelta: 7,
+              longitudeDelta: 7
+            },
+          });
+          console.log(position);
+        },
+        (error) => {
+          this.setState({ location: error, loading: false });
+          console.log(error);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+      );
+    });
+  }
+
+  goToMap(lat, lng){
+    this.setState({
+      initialPosition: {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: 7,
+        longitudeDelta: 7
+      },
+    })
   }
 
   _renderItem = ({ item }) => (
     <TouchableOpacity 
       style={{ marginTop: p(8)}}
-      onPress={()=>{
-        this.setState({
-          initialPosition: {
-            latitude: parseFloat(item.location.coordinates.latitude),
-            longitude: parseFloat(item.location.coordinates.longitude),
-            latitudeDelta: 7,
-            longitudeDelta: 7
-          },
-        })
-      }} 
+      onPress={()=>this.goToMap(parseFloat(item.location.coordinates.latitude), parseFloat(item.location.coordinates.longitude))}
     >
       <Image source={{ uri: item.picture.medium}} style={{ width: p(80), height: p(80), borderRadius: p(40), marginLeft: p(11) }} />
       <Text style={{ fontSize: p(15), alignSelf: 'center', marginTop: p(6) }}>${item.dob.age}</Text>
@@ -113,12 +169,15 @@ export default class Maps extends Component {
         </Callout>
 
         <Callout style={{ alignContent: 'center', width: '100%', height: "20%", marginTop: p(50) }}>
-          <GooglePlaceSearch />
+          <GooglePlaceSearch onClick={(lat, lng)=> { 
+            console.log("~!~!~~!", lat);
+            this.goToMap(lat, lng)}
+            }/>
         </Callout>
 
         <Callout style={{ top: p(140), right: p(12), alignSelf: 'flex-end' }}>
-          <TouchableOpacity style={{ elevation: 5, padding: p(9), backgroundColor: '#fff', borderRadius: 5 }} onPress={this.onCurrentLocationPressed}>
-            <MaterialIcons name='my-location' size={p(13)} color={'grey'} />
+          <TouchableOpacity style={{ elevation: 5, padding: p(9), backgroundColor: '#fff', borderRadius: 5 }} onPress={this.getLocation}>
+            {this.state.loading ? <ActivityIndicator size={p(13)} color={'grey'} /> : <MaterialIcons name='my-location' size={p(13)} color={'grey'} />}
           </TouchableOpacity>
         </Callout>
 

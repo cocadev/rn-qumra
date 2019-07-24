@@ -1,176 +1,90 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, FlatList, Dimensions } from 'react-native';
-import RNGooglePlaces from 'react-native-google-places';
-import lookUpPlaceByID from '../common/config';
-import { p } from '../common/normalize';
-import { images } from '../common/images';
+import React from "react"
+import { View, PermissionsAndroid } from "react-native"
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { p } from "../common/normalize";
 import MapView, { PROVIDER_GOOGLE, Callout, } from 'react-native-maps';
 
-export default class GooglePlaceSearch extends Component{
+export default class GooglePlacesSearch extends React.Component {
+
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      showInput: false,
-      addressQuery: '',
-      predictions: []
-    };
-  }
-
-  onQueryChange = (text) => {
-    this.setState({ addressQuery: text });
-    RNGooglePlaces.getAutocompletePredictions(this.state.addressQuery)
-      .then((places) => {
-        console.log('~~~~~~~~~~~~~~~~~' ,places);
-        this.setState({ predictions: places });
-      })
-      .catch(error => console.log(error.message));
-  }
-
-  onSelectSuggestion(placeID) {
-    console.log('getPlaceByID => ', placeID);
-    // getPlaceByID call here
-    RNGooglePlaces.lookUpPlaceByID(placeID)
-      .then((results) => console.log('++++++++++++++++++++++', results))
-      .catch((error) => console.log('err->', error.message));
-
-    this.setState({
-      showInput: false,
-      predictions: []
-    });
-  }
-
-  onGetPlaceByIDPress = () => {
-    RNGooglePlaces.lookUpPlaceByID(lookUpPlaceByID)
-      .then((results) => console.log(results))
-      .catch((error) => console.log(error.message));
-  }
-
-  keyExtractor = item => item.placeID;
-
-  renderItem = ({ item }) => {
-    return (
-      <View style={styles.listItemWrapper}>
-        <TouchableOpacity style={styles.listItem}
-          onPress={() => this.onSelectSuggestion(item.placeID)}>
-          <View style={styles.avatar}>
-            <Image style={styles.listIcon} source={images.markder_qumrahmarker} />
-          </View>
-          <View style={styles.placeMeta}>
-            <Text style={styles.primaryText}>{item.primaryText}</Text>
-            <Text style={styles.secondaryText}>{item.secondaryText}</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.divider} />
-      </View>
-    );
+      signedIn: false,
+      name: "",
+      photoUrl: "",
+      location: { lat: 19.076090, lng: 72.877426, },
+    }
   }
 
   render() {
 
-    console.log('_________________________________________________', this.state.predictions)
-
     return (
-      <View style={{ flex: 1, width: "100%", padding: p(20) }}>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.input}
-            value={this.state.addressQuery}
-            onChangeText={this.onQueryChange}
-            placeholder={'Where to meet?'}
-            placeholderTextColor='gray'
-            underlineColorAndroid={'transparent'}
-          />
-        </View>
+      <View style={{ height: p(150) }}>
 
-        <View style={styles.list}>
-          <FlatList
-            data={this.state.predictions}
-            renderItem={this.renderItem}
-            keyExtractor={this.keyExtractor}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ flexGrow: 1 }}
+        <Callout style={{
+          marginHorizontal: 20, flex: 1, width: '95%',
+        }}>
+          <GooglePlacesAutocomplete
+            placeholder='Search'
+            minLength={2} // minimum length of text to search
+            autoFocus={false}
+            fetchDetails={true}
+            listViewDisplayed={false}    // true/false/undefined
+
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true                
+              this.props.onClick(details.geometry.location.lat, details.geometry.location.lng)
+            }}
+
+            query={{
+              key: 'AIzaSyB1I2oX-x9KEe-qqmW5ZmiB5WzgOuqQc4c',
+              language: 'en', // language of the results
+              types: 'address', // default: 'geocode'
+            }}
+
+            styles={{
+              description: {
+                fontWeight: 'bold',
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+              },
+              textInput: {
+                height: p(25),
+                width: '100%',
+                fontSize: p(14)
+              },
+              textInputContainer: {
+                height: p(32),
+                width: '100%',
+                backgroundColor: 'rgba(0,0,0,0)',
+                borderTopWidth: 0,
+                elevation: p(2),
+                borderRadius: p(4),
+                marginTop: p(20)
+              },
+              listView: {
+                backgroundColor: '#fff'
+              }
+            }}
+
+            // debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+
+
+            currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+            GoogleReverseGeocodingQuery={{
+              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            }}
+
+
+            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+            predefinedPlacesAlwaysVisible={true}
           />
-        </View>
+        </Callout>
+
       </View>
-    );
+
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#263238',
-    flexDirection: 'row',
-    height: p(45),
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: p(10)
-  },
-  buttonText: {
-    color: 'white'
-  },
-  inputLauncher: {
-    backgroundColor: '#F3F7F9',
-    width: '100%',
-    borderRadius: p(4),
-    height: p(35),
-    justifyContent: 'center',
-    paddingLeft: p(10),
-    marginBottom: p(16)
-  },
-  inputWrapper: {
-    backgroundColor: 'white',
-    width: '100%',
-    borderRadius: p(7),
-    justifyContent: 'center',
-    elevation: 4
-  },
-  input: {
-    color: '#222B2F',
-    height: p(40),
-    fontSize: p(12),
-    paddingVertical: p(4),
-    width: "100%",
-    paddingLeft: p(8),
-  },
-  list: {
-    marginTop: p(2),
-    height: Dimensions.get('window').height - p(70)
-  },
-  listItemWrapper: {
-    backgroundColor: 'white', //'transparent',
-    height: p(40),
-    width: "90%"
-
-  },
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: p(10),
-    height: '100%'
-  },
-  divider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: 'blue',
-    width: '92%',
-    marginHorizontal: p(16),
-    opacity: 0.6
-  },
-  primaryText: {
-    color: 'black',
-    fontSize: p(14),
-    marginBottom: 3
-  },
-  placeMeta: {
-    flex: 1,
-    marginLeft: p(15)
-  },
-  secondaryText: {
-    color: 'gray',
-    fontSize: p(13),
-  },
-  listIcon: {
-    width: p(25),
-    height: p(21)
-  }
-});

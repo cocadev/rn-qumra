@@ -25,7 +25,7 @@ export default class ForgetPassword extends Component {
     return (
       <LinearGradient colors={['#020407', '#2d3e50']} style={{ flex: 1, padding: p(12) }}>
 
-        { this.state.isWaiting && <ATOM.Loading />} 
+        {this.state.isWaiting && <ATOM.Loading />}
 
         <View style={CustomStyle.wrapper}>
           <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
@@ -41,8 +41,8 @@ export default class ForgetPassword extends Component {
               </Text>
             </View>
 
-            <TextInput 
-              style={CustomStyle.textInput} 
+            <TextInput
+              style={CustomStyle.textInput}
               placeholder='Email'
               onChangeText={(username) => this.setState({ username })}
               value={this.state.username}
@@ -74,10 +74,10 @@ export default class ForgetPassword extends Component {
   }
 
   recoverPasword = () => {
-    this.setState({ isWaiting: true})
+    this.setState({ isWaiting: true })
     firebase.auth().sendPasswordResetEmail(this.state.username)
       .then((res) => {
-        this.setState({ isWaiting: false})
+        this.setState({ isWaiting: false })
         showMessage({
           message: "Request Success",
           description: "A recovery link is sent to your email",
@@ -86,13 +86,13 @@ export default class ForgetPassword extends Component {
         });
       })
       .catch(error => {
-        this.setState({ isWaiting: false})
+        this.setState({ isWaiting: false })
         showMessage({
           message: "Fail Request",
           description: error.message,
           type: "danger",
           icon: "danger"
-      });
+        });
       })
   }
 }

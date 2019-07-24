@@ -1,72 +1,80 @@
-import React from 'react'
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native'
-import MapView from 'react-native-maps'
-import { Actions } from 'react-native-router-flux';
 
-const { width, height } = Dimensions.get('window')
+import React, { Component } from 'react';
+import {
+  Button,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View
+} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
+export default class App extends Component {
+  watchId = null;
 
-function randomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
+  state = {
+    loading: false,
+    updatesEnabled: false,
+    location: {}
+  };
 
-export default class Test extends React.Component {
-  constructor(props) {
-    super(props);
+  hasLocationPermission = async () => {
+    if (Platform.OS === 'ios' ||
+        (Platform.OS === 'android' && Platform.Version < 23)) {
+      return true;
+    }
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      markers: [],
-    };
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (hasPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+    }
+
+    return false;
   }
 
-  onMapPress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: e.nativeEvent.coordinate,
-          key: id++,
-          color: randomColor(),
+  getLocation = async () => {
+    const hasLocationPermission = await this.hasLocationPermission();
+
+    if (!hasLocationPermission) return;
+
+    this.setState({ loading: true }, () => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({ location: position, loading: false });
+          console.log(position);
         },
-      ],
+        (error) => {
+          this.setState({ location: error, loading: false });
+          console.log(error);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+      );
     });
   }
 
   render() {
+    const { loading, location, updatesEnabled } = this.state;
     return (
       <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          initialRegion={this.state.region}
-          onPress={(e) => this.onMapPress(e)}
-        >
-          {this.state.markers.map(marker => (
-            <MapView.Marker
-              key={marker.key}
-              coordinate={marker.coordinate}
-              pinColor={marker.color}
-            />
-          ))}
-        </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => Actions.pop()}
-            style={styles.bubble}
-          >
-            <Text>Go Back 333</Text>
-          </TouchableOpacity>
+        <Button title='Get Location' onPress={this.getLocation} disabled={loading || updatesEnabled} />
+
+        <View style={styles.result}>
+            <Text>{JSON.stringify(location, null, 4)}</Text>
         </View>
       </View>
     );
@@ -75,32 +83,23 @@ export default class Test extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    paddingHorizontal: 12
   },
-  map: {
-    ...StyleSheet.absoluteFillObject,
+  result: {
+      borderWidth: 1,
+      borderColor: '#666',
+      width: '100%',
+      paddingHorizontal: 16
   },
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-  latlng: {
-    width: 200,
-    alignItems: 'stretch',
-  },
-  button: {
-    width: 80,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
+  buttons: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      marginVertical: 12,
+      width: '100%'
+  }
 });

@@ -4,8 +4,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />   
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
 
     <application
       android:name=".MainApplication"
@@ -27,7 +30,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCLhC-6heDRqwSJJQRCe1CFwsvwWLUSXtc"
+            android:value="AIzaSyANf8fz4oNqO_zMbfMtQpk-60qvKm1Qjgs"
       />
 
     </application>
