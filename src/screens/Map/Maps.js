@@ -8,7 +8,6 @@ import { p } from '../../common/normalize';
 import { images } from '../../common/images';
 import { COLORS } from '../../common/colors';
 import axios from 'axios';
-import RNGooglePlaces from 'react-native-google-places';
 
 var { width, height } = Dimensions.get('window')
 
@@ -25,8 +24,10 @@ export default class Maps extends Component {
         longitudeDelta: 7
       },
       persons: [],
-      error: ''
+      error: '',
+      
     };
+    this.goToMap = this.goToMap.bind(this)
   }
 
   componentDidMount() {
@@ -38,24 +39,24 @@ export default class Maps extends Component {
   }
 
   onCurrentLocationPressed = () => {
-    RNGooglePlaces.getCurrentPlace(['location'])
-    .then((results) => console.log('here is my place', results))
-    .catch((error) => console.log(error.message));
+
+  }
+
+  goToMap(lat, lng){
+    this.setState({
+      initialPosition: {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: 7,
+        longitudeDelta: 7
+      },
+    })
   }
 
   _renderItem = ({ item }) => (
     <TouchableOpacity 
       style={{ marginTop: p(8)}}
-      onPress={()=>{
-        this.setState({
-          initialPosition: {
-            latitude: parseFloat(item.location.coordinates.latitude),
-            longitude: parseFloat(item.location.coordinates.longitude),
-            latitudeDelta: 7,
-            longitudeDelta: 7
-          },
-        })
-      }} 
+      onPress={()=>this.goToMap(parseFloat(item.location.coordinates.latitude), parseFloat(item.location.coordinates.longitude))}
     >
       <Image source={{ uri: item.picture.medium}} style={{ width: p(80), height: p(80), borderRadius: p(40), marginLeft: p(11) }} />
       <Text style={{ fontSize: p(15), alignSelf: 'center', marginTop: p(6) }}>${item.dob.age}</Text>
@@ -113,7 +114,10 @@ export default class Maps extends Component {
         </Callout>
 
         <Callout style={{ alignContent: 'center', width: '100%', height: "20%", marginTop: p(50) }}>
-          <GooglePlaceSearch />
+          <GooglePlaceSearch onClick={(lat, lng)=> { 
+            console.log("~!~!~~!", lat);
+            this.goToMap(lat, lng)}
+            }/>
         </Callout>
 
         <Callout style={{ top: p(140), right: p(12), alignSelf: 'flex-end' }}>

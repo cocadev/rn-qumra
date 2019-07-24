@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../../common/colors';
 import { Actions } from 'react-native-router-flux';
+import { showMessage } from "react-native-flash-message";
 
 export default class Profile extends Component {
 
@@ -15,7 +16,8 @@ export default class Profile extends Component {
     this.state = {
       fullname: '',
       summary: '',
-      filePath: null
+      filePath: null,
+      isWaiting: false
     }
   };
 
@@ -40,7 +42,7 @@ export default class Profile extends Component {
         console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
+        // alert(response.customButton);
       } else {
         //  let source = response;
         // You can also display the image using data:
@@ -101,26 +103,35 @@ export default class Profile extends Component {
 
     const { currentUser } = firebase.auth();
     const id = currentUser.uid;
-
     const { fullname, summary } = this.state;
+    
     firebase.database().ref(`userdetail`)
       .push({ id, fullname, summary })
-      .then(() => {
-        alert("Chanegs Saved! ")
-
+      .then((res) => {
+        console.log('res==>', res)
+        showMessage({ message: "Success Request", description: "Great", type: "success", icon: "success" });
+      })
+      .catch(error=>{
+        showMessage({ message: "Fail Request", description: error.message, type: "danger", icon: "danger" });
       })
 
     uploadResult = await uploadImageAsync(this.state.filePath);
     if (typeof uploadResult == 'string') {
-      alert("Image uploaded")
+      showMessage({
+        message: "Success",
+        description: "Image uploaded",
+        type: "success",
+        icon: "success"
+      });
     }
-    debugger;
   }
 }
 
 async function uploadImageAsync(uri) {
 
-  alert("Started uploading Image")
+  // alert("Started uploading Image")
+  
+
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {

@@ -17,7 +17,7 @@ export default class SignUp extends Component {
     super(props);
     this.state = {
       name: 'wangdoran111',
-      email: 'eugene19950901@gmail.com',
+      email: 'xxx@x.com',
       password: '11112222',
       isWaiting: false
     }

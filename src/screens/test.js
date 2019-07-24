@@ -1,106 +1,81 @@
-import React from 'react'
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native'
-import MapView from 'react-native-maps'
-import { Actions } from 'react-native-router-flux';
-
-const { width, height } = Dimensions.get('window')
-
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
-
-function randomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
+import React from "react"
+import { View } from "react-native"
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { Actions } from "react-native-router-flux"
 
 export default class Test extends React.Component {
+
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      markers: [],
-    };
-  }
-
-  onMapPress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: e.nativeEvent.coordinate,
-          key: id++,
-          color: randomColor(),
-        },
-      ],
-    });
+      signedIn: false,
+      name: "",
+      photoUrl: "",
+      location: { lat: 19.076090, lng: 72.877426, },
+    }
   }
 
   render() {
+
+    console.log(' * - 1*',  this.props.user)
+
     return (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          initialRegion={this.state.region}
-          onPress={(e) => this.onMapPress(e)}
-        >
-          {this.state.markers.map(marker => (
-            <MapView.Marker
-              key={marker.key}
-              coordinate={marker.coordinate}
-              pinColor={marker.color}
-            />
-          ))}
-        </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => Actions.pop()}
-            style={styles.bubble}
-          >
-            <Text>Go Back 333</Text>
-          </TouchableOpacity>
+      <View style={{ flex: 1 }}>
+
+        <View style={{marginHorizontal:20, flex:1, width:'86%'}}>
+          <GooglePlacesAutocomplete
+            placeholder='Search'
+            minLength={2} // minimum length of text to search
+            autoFocus={false}
+            fetchDetails={true}
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+              if(this.props.update){
+                this.props.update(details.geometry.location, details.name)
+                Actions.pop();
+              }
+            }}
+
+            query={{
+              key: 'AIzaSyANf8fz4oNqO_zMbfMtQpk-60qvKm1Qjgs',
+              language: 'en', // language of the results
+              types: 'address', // default: 'geocode'
+            }}
+
+            styles={{
+              description: {
+                fontWeight: 'bold',
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+              },
+              textInput: {
+                width: '100%',
+              },
+              textInputContainer: {
+                width: '100%',
+                backgroundColor: 'rgba(0,0,0,0)',
+                borderTopWidth: 0,
+                borderBottomWidth: 1,
+                borderBottomColor: '#ddd'
+              },
+            }}
+            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+
+            currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+            GoogleReverseGeocodingQuery={{
+              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            }}
+
+
+            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+            predefinedPlacesAlwaysVisible={true}
+          />
         </View>
+
       </View>
-    );
+
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-  latlng: {
-    width: 200,
-    alignItems: 'stretch',
-  },
-  button: {
-    width: 80,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
-});
