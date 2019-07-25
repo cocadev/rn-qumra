@@ -9,6 +9,7 @@
     "ios": "react-native run-ios"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^1.4.2",
     "axios": "^0.19.0",
     "firebase": "^6.3.1",
     "react": "16.8.6",

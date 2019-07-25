@@ -25,9 +25,9 @@
 		AA5597ED1BE448F1AC264045 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2122D335F5C74343B6A05E86 /* FontAwesome5_Regular.ttf */; };
 		B0055CFBB98C4C8D9411AAA5 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5ADF91882154A5594D20E0B /* Feather.ttf */; };
 		B30C142DDFD9481A9C910B34 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B8EFF62F6E04CB5921B6AFC /* Foundation.ttf */; };
-		C0118EE6D98CACD22659E353 /* libPods-QumraApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CA7D763CA479A7B1F0925D /* libPods-QumraApp.a */; };
 		E3F9517AD1864B39A2463755 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03832B30CF0345D8931FF43E /* Ionicons.ttf */; };
 		E58FDBF91ECF47CFA3F7254A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0ACB116C5F364348B454A567 /* FontAwesome5_Solid.ttf */; };
+		E6D4F388E737D962FA4194A5 /* libPods-QumraApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CA7D763CA479A7B1F0925D /* libPods-QumraApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0118EE6D98CACD22659E353 /* libPods-QumraApp.a in Frameworks */,
+				E6D4F388E737D962FA4194A5 /* libPods-QumraApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +306,6 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-QumraApp/Pods-QumraApp-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -327,7 +326,6 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
