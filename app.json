@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "qumra10",
+    "description": "qumra photo app",
+    "slug": "qumra10",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.1.1",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "packagerOpts": {
+      "assetExts": [
+        "ttf",
+        "mp4",
+        "otf",
+        "xml",
+        "jpg",
+        "png"
+      ]
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.qumra.app",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBTFwGaraAS6YkKyeyZWH-jSY10mdkoD2E"
+        }
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.qumra.app"
+    }
+  }
+}
