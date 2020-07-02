@@ -1,1 +1,1 @@
-# alkim app
+# React Native Qumra APP
