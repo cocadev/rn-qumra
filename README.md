@@ -1,1 +1,1 @@
-# React Native Qumra APP
+# React Native Qumra Photo APP cloned from AirBnb
