@@ -19,8 +19,8 @@ import _ from 'underscore'
 
 class Login extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email: 'max@x.io',
             password: '123123',
